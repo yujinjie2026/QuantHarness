@@ -4,7 +4,11 @@ Initializes LLMs, toolkits, and agent nodes for indicator, pattern, and trend an
 """
 
 import os
+from pathlib import Path
 from typing import Dict
+from dotenv import load_dotenv
+
+load_dotenv(Path(__file__).with_name(".env"))
 
 from langchain_anthropic import ChatAnthropic
 from langchain_core.language_models import BaseChatModel
@@ -12,7 +16,8 @@ from langchain_openai import ChatOpenAI
 from langchain_qwq import ChatQwen
 from langgraph.prebuilt import ToolNode
 
-from default_config import DEFAULT_CONFIG
+from default_config import DEFAULT_CONFIG, DEEPSEEK_RUNTIME_CONFIG
+from deepseek_adapter import DeepSeekChatOpenAI
 from graph_setup import SetGraph
 from graph_util import TechnicalTools
 
@@ -216,6 +221,35 @@ class TradingGraph:
         Returns:
             BaseChatModel: An instance of the appropriate LLM class
         """
+        if provider == "deepseek":
+            api_key = os.getenv("DEEPSEEK_API_KEY")
+            if not api_key:
+                raise ValueError("请先在 .env 中填写 DEEPSEEK_API_KEY")
+
+            return DeepSeekChatOpenAI(
+                model=os.getenv("DEEPSEEK_MODEL", model),
+                api_key=api_key,
+                base_url=os.getenv(
+                    "DEEPSEEK_BASE_URL",
+                    "https://api.deepseek.com"
+                ),
+                # DeepSeek思考模式下temperature不生效，避免把0.1误记为实际设置。
+                temperature=None,
+                reasoning_effort=DEEPSEEK_RUNTIME_CONFIG["reasoning_effort"],
+                extra_body={
+                    "thinking": {"type": DEEPSEEK_RUNTIME_CONFIG["thinking"]},
+                    "max_tokens": DEEPSEEK_RUNTIME_CONFIG["max_tokens"],
+                },
+                timeout=DEEPSEEK_RUNTIME_CONFIG["timeout_seconds"],
+                max_retries=DEEPSEEK_RUNTIME_CONFIG["max_retries"],
+                invalid_response_retries=DEEPSEEK_RUNTIME_CONFIG["invalid_response_retries"],
+                invalid_response_retry_delay=DEEPSEEK_RUNTIME_CONFIG["invalid_response_retry_delay"],
+                diagnostics_path=Path.cwd() / "api_diagnostics.jsonl",
+                streaming=False,
+                disable_streaming=True,
+                use_responses_api=False,
+            )
+
         api_key = self._get_api_key(provider)
 
         if provider == "openai":
