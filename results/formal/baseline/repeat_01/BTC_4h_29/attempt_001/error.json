@@ -1,0 +1,47 @@
+{
+  "time": "2026-11-07T17:15:17+08:00",
+  "type": "RuntimeError",
+  "message": "Max retries exceeded",
+  "traceback": [
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/run_btc.py",
+      "line": 210,
+      "function": "run_sample"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/pregel/main.py",
+      "line": 3060,
+      "function": "stream"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/pregel/_runner.py",
+      "line": 204,
+      "function": "tick"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/pregel/_retry.py",
+      "line": 637,
+      "function": "run_with_retry"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/_internal/_runnable.py",
+      "line": 794,
+      "function": "invoke"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/_internal/_runnable.py",
+      "line": 479,
+      "function": "invoke"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/pattern_agent.py",
+      "line": 178,
+      "function": "pattern_agent_node"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/pattern_agent.py",
+      "line": 75,
+      "function": "invoke_with_retry"
+    }
+  ]
+}

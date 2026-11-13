@@ -1,0 +1,17 @@
+{
+  "time": "2026-11-07T23:17:37+08:00",
+  "type": "ValueError",
+  "message": "缺少有效的 pattern_report",
+  "traceback": [
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/run_btc.py",
+      "line": 222,
+      "function": "run_sample"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/run_btc.py",
+      "line": 147,
+      "function": "score"
+    }
+  ]
+}

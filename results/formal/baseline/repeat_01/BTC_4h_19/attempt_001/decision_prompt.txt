@@ -1,0 +1,123 @@
+You are a high-frequency quantitative trading (HFT) analyst operating on the current 4hour K-line chart for BTC. Your task is to issue an **immediate execution order**: **LONG** or **SHORT**. ⚠️ HOLD is prohibited due to HFT constraints.
+
+            Your decision should forecast the market move over the **next N candlesticks**, where:
+            - For example: TIME_FRAME = 15min, N = 1 → Predict the next 15 minutes.
+            - TIME_FRAME = 4hour, N = 1 → Predict the next 4 hours.
+
+            Base your decision on the combined strength, alignment, and timing of the following three reports:
+
+            ---
+
+            ### 1. Technical Indicator Report:
+            - Evaluate momentum (e.g., MACD, ROC) and oscillators (e.g., RSI, Stochastic, Williams %R).
+            - Give **higher weight to strong directional signals** such as MACD crossovers, RSI divergence, extreme overbought/oversold levels.
+            - **Ignore or down-weight neutral or mixed signals** unless they align across multiple indicators.
+
+            ---
+
+            ### 2. Pattern Report:
+            - Only act on bullish or bearish patterns if:
+            - The pattern is **clearly recognizable and mostly complete**, and
+            - A **breakout or breakdown is already underway** or highly probable based on price and momentum (e.g., strong wick, volume spike, engulfing candle).
+            - **Do NOT act** on early-stage or speculative patterns. Do not treat consolidating setups as tradable unless there is **breakout confirmation** from other reports.
+
+            ---
+
+            ### 3. Trend Report:
+            - Analyze how price interacts with support and resistance:
+            - An **upward sloping support line** suggests buying interest.
+            - A **downward sloping resistance line** suggests selling pressure.
+            - If price is compressing between trendlines:
+            - Predict breakout **only when confluence exists with strong candles or indicator confirmation**.
+            - **Do NOT assume breakout direction** from geometry alone.
+
+            ---
+
+            ### ✅ Decision Strategy
+
+            1. Only act on **confirmed** signals — avoid emerging, speculative, or conflicting signals.
+            2. Prioritize decisions where **all three reports** (Indicator, Pattern, and Trend) **align in the same direction**.
+            3. Give more weight to:
+            - Recent strong momentum (e.g., MACD crossover, RSI breakout)
+            - Decisive price action (e.g., breakout candle, rejection wicks, support bounce)
+            4. If reports disagree:
+            - Choose the direction with **stronger and more recent confirmation**
+            - Prefer **momentum-backed signals** over weak oscillator hints.
+            5. ⚖️ If the market is in consolidation or reports are mixed:
+            - Default to the **dominant trendline slope** (e.g., SHORT in descending channel).
+            - Do not guess direction — choose the **more defensible** side.
+            6. Suggest a reasonable **risk-reward ratio** between **1.2 and 1.8**, based on current volatility and trend strength.
+
+            ---
+            ### 🧠 Output Format in json(for system parsing):
+
+            ```
+            {
+            "forecast_horizon": "Predicting next 3 candlestick (15 minutes, 1 hour, etc.)",
+            "decision": "<LONG or SHORT>",
+            "justification": "<Concise, confirmed reasoning based on reports>",
+            "risk_reward_ratio": "<float between 1.2 and 1.8>",
+            }
+
+            --------
+            **Technical Indicator Report**  
+            ## Indicator Analysis — 4H BTC (last bar 2025-05-14 04:00, C=103,944.93)
+
+**Note on alignment:** RSI / Stoch / %R / ROC returned the last 28 bars (2025-05-09 16:00 → 2025-05-14 04:00); MACD is full-length. Latest values below.
+
+| Indicator | Latest | Prev | Signal |
+|---|---|---|---|
+| RSI(14) | 55.62 | 54.41 | Neutral-bullish, rising off 45.9 low |
+| MACD (12/26/9) | 529.79 | 540.15 | Above zero, below signal |
+| MACD signal | 634.82 | 661.07 | No bull cross yet |
+| MACD hist | **−105.02** | −120.92 | Negative but contracting (trough −510 @ 05-12 20:00) |
+| Stoch %K / %D | 59.42 / 62.46 | 60.46 / 65.35 | Mid-range; %K just crossed below %D |
+| Williams %R(14) | −36.75 | −41.22 | Neutral, recovered from −95.9 |
+| ROC(10) | +2.05% | +1.16% | Re-accelerating positive |
+
+## Read
+
+**Primary trend: bullish, intact.** Price rallied 94.0k → 105.8k peak (05-12), pulled back to 101,719 (05-13 00:00) and has since reclaimed 103.9k — a **higher low** sequence inside a 103.0k–105.0k consolidation. MACD line remains deeply positive (529 vs a 2,058 peak), i.e., cooling momentum, not a trend break.
+
+**Short-term momentum: reset and turning up.** RSI 56 with room to 70; Stochastic unwound from 17.8 oversold to 59; %R off −96. The MACD histogram has improved 5 of the last 7 bars (−510 → −105) — compression toward a zero-line recross. This is the classic "flag → re-acceleration" profile, not a distribution top.
+
+**Two caveats:** (1) MACD line still under signal — no confirmation cross yet, so this is an early entry, not a confirmed one. (2) The 101.7k–102.8k washout printed 4,000–7,900 volume vs 2,000–3,500 on the recovery leg — the bounce is on lighter participation.
+
+## Execution plan
+
+- **Bias: long continuation.** Buy dips into **103.0k–103.4k** (10-EMA cluster / prior breakout shelf).
+- **Stop:** below **101.7k** (05-13 swing low) — invalidation of the higher-low structure. ~2% risk.
+- **Upside targets:** **104.98k** (05-13 high) → **105.82k** (period high). Break/close >105.0k opens extension; expect RSI >70 there → scale out.
+- **Trigger for adding:** MACD hist flips positive and MACD line crosses signal (1–2 bars of holding >104.1k). Confirmation adds conviction to the 105.8k test.
+- **Abort long / flip short watch:** close back under **103.0k** with expanding volume, then a %K/%D roll below 30 and RSI <45 — that would mark the reset descending into distribution rather than a flag.
+
+**Net:** bullish trend, neutral-to-constructive momentum, buy the 103.0–103.4k retest with 101.7k risk; confirmation on the MACD cross.
+
+            **Pattern Report**  
+            The chart most closely matches an **Ascending Triangle**, with a shorter-term **V-shaped reversal** at the right side.
+
+**Reasoning:**
+- After the sharp rally from roughly 96,000 to the 103,000–104,500 area, price enters a consolidation phase.
+- Within that consolidation, resistance is relatively flat around **104,000–104,500**, while the lows progressively rise — roughly from **102,500 → 103,000 → 103,500**. This rising support beneath flat resistance is the key structure of an **ascending triangle**.
+- Price then breaks upward with strong green candles toward the **105,800** area, consistent with the typical upward resolution of an ascending triangle.
+- After the peak, there is a sharp selloff to about **101,800** and an equally sharp rebound back toward **104,500**, forming a local **V-shaped reversal**. This looks like a throwback/retest after the breakout rather than a clean double bottom, since the two lows are not symmetrical.
+
+Secondary interpretations could include a **bullish flag/rectangle consolidation** after the initial strong upward move, but the clearest structural match is the **ascending triangle with an upward breakout**, followed by a V-shaped recovery.
+
+            **Trend Report**  
+            **Prediction: Upward (short-term, within the channel), with resistance overhead limiting immediate upside.**
+
+**Reasoning**
+- The **blue support line is rising**, and price recently pulled back toward it around the May 11–12 area, then produced **bullish green candles / rejection from support**. This suggests buyers are defending the lower channel boundary.
+- The **red resistance line is also rising**, but price has repeatedly tested the upper half of the channel and is now bouncing from the lower half. In an ascending channel, a support bounce generally favors a move back toward the upper boundary.
+- The channel appears **slightly compressing**: support is rising faster than resistance, so spacing is narrowing. This increases the chance of a breakout/breakdown, but the immediate reaction from support favors an upward attempt first.
+- Candles earlier in the move showed strong bullish expansion, followed by consolidation near resistance and then a controlled pullback. That looks more like a **bullish continuation structure** than a breakdown, as support held.
+
+**Key signals**
+- **Bullish:** higher lows, rising support, recent bounce/rejection off blue support, green candles returning after the pullback.
+- **Caution:** overhead red resistance near the 105k–106k+ zone; recent candle hesitation/doji near the latest highs suggests momentum may slow before a clean breakout.
+- **Invalidation:** a decisive close below the blue support line would shift the short-term bias to **downward/sideways-to-down**.
+
+**Bottom line:** expect a **short-term upward drift toward the red resistance line**, but unless resistance is clearly broken, the move may remain contained and could transition to sideways near the upper boundary.
+
+        

@@ -1,0 +1,146 @@
+You are a high-frequency quantitative trading (HFT) analyst operating on the current 4hour K-line chart for BTC. Your task is to issue an **immediate execution order**: **LONG** or **SHORT**. ⚠️ HOLD is prohibited due to HFT constraints.
+
+            Your decision should forecast the market move over the **next N candlesticks**, where:
+            - For example: TIME_FRAME = 15min, N = 1 → Predict the next 15 minutes.
+            - TIME_FRAME = 4hour, N = 1 → Predict the next 4 hours.
+
+            Base your decision on the combined strength, alignment, and timing of the following three reports:
+
+            ---
+
+            ### 1. Technical Indicator Report:
+            - Evaluate momentum (e.g., MACD, ROC) and oscillators (e.g., RSI, Stochastic, Williams %R).
+            - Give **higher weight to strong directional signals** such as MACD crossovers, RSI divergence, extreme overbought/oversold levels.
+            - **Ignore or down-weight neutral or mixed signals** unless they align across multiple indicators.
+
+            ---
+
+            ### 2. Pattern Report:
+            - Only act on bullish or bearish patterns if:
+            - The pattern is **clearly recognizable and mostly complete**, and
+            - A **breakout or breakdown is already underway** or highly probable based on price and momentum (e.g., strong wick, volume spike, engulfing candle).
+            - **Do NOT act** on early-stage or speculative patterns. Do not treat consolidating setups as tradable unless there is **breakout confirmation** from other reports.
+
+            ---
+
+            ### 3. Trend Report:
+            - Analyze how price interacts with support and resistance:
+            - An **upward sloping support line** suggests buying interest.
+            - A **downward sloping resistance line** suggests selling pressure.
+            - If price is compressing between trendlines:
+            - Predict breakout **only when confluence exists with strong candles or indicator confirmation**.
+            - **Do NOT assume breakout direction** from geometry alone.
+
+            ---
+
+            ### ✅ Decision Strategy
+
+            1. Only act on **confirmed** signals — avoid emerging, speculative, or conflicting signals.
+            2. Prioritize decisions where **all three reports** (Indicator, Pattern, and Trend) **align in the same direction**.
+            3. Give more weight to:
+            - Recent strong momentum (e.g., MACD crossover, RSI breakout)
+            - Decisive price action (e.g., breakout candle, rejection wicks, support bounce)
+            4. If reports disagree:
+            - Choose the direction with **stronger and more recent confirmation**
+            - Prefer **momentum-backed signals** over weak oscillator hints.
+            5. ⚖️ If the market is in consolidation or reports are mixed:
+            - Default to the **dominant trendline slope** (e.g., SHORT in descending channel).
+            - Do not guess direction — choose the **more defensible** side.
+            6. Suggest a reasonable **risk-reward ratio** between **1.2 and 1.8**, based on current volatility and trend strength.
+
+            ---
+            ### 🧠 Output Format in json(for system parsing):
+
+            ```
+            {
+            "forecast_horizon": "Predicting next 3 candlestick (15 minutes, 1 hour, etc.)",
+            "decision": "<LONG or SHORT>",
+            "justification": "<Concise, confirmed reasoning based on reports>",
+            "risk_reward_ratio": "<float between 1.2 and 1.8>",
+            }
+
+            --------
+            **Technical Indicator Report**  
+            ## Indicator Analysis — 4H OHLC (BTC-style, Aug 8–24 2023)
+
+### 1. RSI (14)
+Tail readings: `…37.13 → 45.51 → 59.42 → 53.42 → 53.66 → 54.59 → 53.49 → 41.43 → 42.77 → 47.02 → **45.12**`
+- Recovered from deeply oversold (~23–27 at the Aug 17 capitulation) but the bounce **stalled at 59.4** and failed to reach overbought.
+- Now **neutral ~45 and rolling over** (47.0 → 45.1 — lower high).
+- **Read:** short-term upside momentum exhausted; no oversold cushion left to power a fresh leg.
+
+### 2. MACD (12/26/9)
+Tail: MACD `-146.8 → -111.8 → -82.4 → -55.5 → -36.5 → -57.0 → -68.9 → -66.2 → **-69.3**` | Signal `…-127.5 → -115.8 → -105.9 → **-98.5**` | Hist `114.3 → 119.4 → 119.1 → 116.7 → 108.6 → 70.5 → 46.9 → 39.7 → **29.3**`
+- Bullish crossover remains intact (MACD above signal) but **histogram has compressed ~75% from its peak** — momentum is decaying fast.
+- MACD itself **rolled back down** off the -36.5 peak (-36.5 → -69.3) and is in a deeply negative regime.
+- **Read:** classic **bear-flag momentum fade**; a bearish crossover below signal is the trigger to watch. The primary trend remains negative.
+
+### 3. ROC (10)
+Tail: `2.21 → 1.25 → 1.51 → 2.08 → 2.58 → -0.23 → 0.13 → 0.47 → **0.64**`
+- Momentum flipped negative after the 26,632 high, now marginally positive but flattening.
+- **Read:** velocity has collapsed — consolidation/mean-reversion, not trend continuation.
+
+### 4. Stochastic (14,3,3)
+%K `75.99 → 66.21 → 56.6 → 50.81 → **53.22**` | %D `72.65 → 66.27 → 57.87 → **53.54**`
+- Rolled down out of overbought (K peaked 83.4) and has arrived at mid-range (~53).
+- **%K is now marginally below %D** → incipient bear cross, but too shallow to be a high-conviction short signal on its own.
+- **Read:** downside bias, but no longer oversold — room to fall further.
+
+### 5. Williams %R (14)
+Tail: `-22.5 → -24.7 → -54.2 → -51.3 → -42.1 → **-46.95**`
+- Confirms rejection from overbought (-11.9 at the top) and neutral-hugging now (~-47).
+- **Read:** neutral, mildly bearish tilt; no extreme.
+
+---
+
+## Synthesis
+
+| Factor | Signal | Weight |
+|---|---|---|
+| Primary trend (MACD deeply negative) | Bearish | High |
+| MACD histogram compression | Bearish (fading bounce) | High |
+| RSI lower high @ 59 → 45 | Bearish | Med |
+| Stoch bear-cross @ mid-range | Mildly bearish | Med |
+| Williams %R neutral | Neutral | Low |
+| Volume (rally 15.4k/6.9k vs pullback 3.4–3.9k) | Mildly bullish | Low |
+
+**Conclusion — SHORT-TERM BEARISH / NEUTRAL, heavy consolidation:**
+This is a **post-capitulation technical bounce that is exhausting**. Every oscillator that turned up off the Aug 17 low (~25,166) has now rolled over simultaneously (RSI lower high, Stoch bear cross, Williams rejection, MACD hist collapsing). No indicator is oversold enough to justify a fresh long here, and none is overbought enough to force a high-conviction short.
+
+**Actionable levels:**
+- **Trigger:** MACD bear cross below signal (~-98) + close below **26,000** → engage short.
+- **Upside invalidation:** 4H close back above **26,632–26,819** (swing high) re-opens 27,000+ and flips the short-term bias.
+- **Downside targets:** **25,780 / 25,726** (recent lows) → then the **25,300** capitulation low.
+- **Risk sizing:** Oscillators mid-range = low-edge environment. Keep size small until the MACD cross or a range break resolves direction.
+
+**Risk note:** Volume is thinning into the late bars (2,777 last) — chop/stop-hunt risk is elevated; avoid chasing either side inside the 25,800–26,650 range.
+
+            **Pattern Report**  
+            **Best match: Rectangle / Hidden Base (bullish upward breakout).**  
+There is also a **double-bottom-like retest** of support, but it is not a textbook double bottom because the wick lows are not equal.
+
+**Reasoning:**
+- From roughly **Aug 18–22**, price oscillates mostly between support near **25,950–26,000** and resistance near **26,200–26,250**, forming a horizontal consolidation/rectangle.
+- A sharp wick down to about **25,320** briefly undercuts support but closes back inside the range. This looks like a false breakdown/bear trap that strengthens the base.
+- Price then breaks above the **26,200** resistance with a large bullish candle, surging toward **26,600–26,800**. This is the key feature of a **Hidden Base**: a sideways base followed by a sudden upward breakout.
+- The structure is more horizontal/parallel than converging, so it is not a clean falling wedge or symmetrical triangle. The two main support tests resemble a double bottom, but the intraday lows differ substantially, so that is a secondary/partial read.
+
+**Conclusion:** The chart most closely matches a **Rectangle / Hidden Base pattern with a bullish breakout**. A **double-bottom interpretation** is possible on closing-price terms, but it is not clean enough to be the primary classification.
+
+            **Trend Report**  
+            Based on the provided 4-hour candlestick chart, here is an analysis of the price interaction with the automated trendlines and a short-term trend prediction:
+
+### **Prediction: Downward / Sideways**
+
+### **Reasoning:**
+1.  **Trendline Slopes:** Both the blue support line and the red resistance line are sloping downwards. This indicates an overarching bearish or corrective structure. The red resistance line is steeper than the blue support line, creating a descending wedge or triangle pattern.
+2.  **Compression:** The price is compressing into the apex of these two converging trendlines. As the space between support and resistance narrows, a breakout will eventually occur, but the current momentum favors the downside due to the heavy initial drop.
+3.  **Current Price Action:** The most recent candles have pushed up to test the red resistance line. However, these candles are relatively small with short bodies, indicating indecision and a lack of strong bullish momentum to break through the resistance.
+
+### **Signals:**
+*   **Resistance Rejection:** The recent price action shows candles hitting the red resistance line and stalling. This suggests sellers are active at these levels, making a short-term pullback likely.
+*   **Lower Highs:** The red resistance line clearly connects a series of lower highs, confirming that the broader trend is currently downward.
+*   **Support Holding Weakly:** While the blue line has acted as a floor (price hasn't closed below it), its downward slope means the "floor" is continually dropping, offering weak structural support for a sustained bull run.
+*   **Consolidation Phase:** After the initial sharp drop (around Aug 16), the market has entered a prolonged sideways consolidation phase. Without a clear, high-volume breakout above the red line, the path of least resistance remains downward back toward the support line.
+
+        

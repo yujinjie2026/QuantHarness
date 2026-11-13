@@ -1,0 +1,38 @@
+{
+  "completed_samples": 300,
+  "expected_samples": 300,
+  "rounds": [
+    {
+      "轮次": 1,
+      "已完成样本": 100,
+      "应完成样本": 100,
+      "命中数": 144,
+      "已完成比较次数": 300,
+      "正式准确率(%)": 48.0,
+      "状态": "完成"
+    },
+    {
+      "轮次": 2,
+      "已完成样本": 100,
+      "应完成样本": 100,
+      "命中数": 138,
+      "已完成比较次数": 300,
+      "正式准确率(%)": 46.0,
+      "状态": "完成"
+    },
+    {
+      "轮次": 3,
+      "已完成样本": 100,
+      "应完成样本": 100,
+      "命中数": 158,
+      "已完成比较次数": 300,
+      "正式准确率(%)": 52.6667,
+      "状态": "完成"
+    }
+  ],
+  "complete": true,
+  "mean_accuracy_percent": 48.888888888888886,
+  "std_accuracy_percentage_points": 3.4210676262979214,
+  "variance_percentage_points_squared": 11.703703703703695,
+  "standard_deviation_definition": "sample standard deviation, ddof=1"
+}

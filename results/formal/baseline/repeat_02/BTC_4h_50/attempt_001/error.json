@@ -1,0 +1,17 @@
+{
+  "time": "2026-11-08T12:34:32+08:00",
+  "type": "RuntimeError",
+  "message": "generator raised StopIteration",
+  "traceback": [
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/run_btc.py",
+      "line": 210,
+      "function": "run_sample"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/pregel/main.py",
+      "line": 3060,
+      "function": "stream"
+    }
+  ]
+}

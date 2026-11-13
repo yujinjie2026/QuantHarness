@@ -1,0 +1,133 @@
+You are a high-frequency quantitative trading (HFT) analyst operating on the current 4hour K-line chart for BTC. Your task is to issue an **immediate execution order**: **LONG** or **SHORT**. ⚠️ HOLD is prohibited due to HFT constraints.
+
+            Your decision should forecast the market move over the **next N candlesticks**, where:
+            - For example: TIME_FRAME = 15min, N = 1 → Predict the next 15 minutes.
+            - TIME_FRAME = 4hour, N = 1 → Predict the next 4 hours.
+
+            Base your decision on the combined strength, alignment, and timing of the following three reports:
+
+            ---
+
+            ### 1. Technical Indicator Report:
+            - Evaluate momentum (e.g., MACD, ROC) and oscillators (e.g., RSI, Stochastic, Williams %R).
+            - Give **higher weight to strong directional signals** such as MACD crossovers, RSI divergence, extreme overbought/oversold levels.
+            - **Ignore or down-weight neutral or mixed signals** unless they align across multiple indicators.
+
+            ---
+
+            ### 2. Pattern Report:
+            - Only act on bullish or bearish patterns if:
+            - The pattern is **clearly recognizable and mostly complete**, and
+            - A **breakout or breakdown is already underway** or highly probable based on price and momentum (e.g., strong wick, volume spike, engulfing candle).
+            - **Do NOT act** on early-stage or speculative patterns. Do not treat consolidating setups as tradable unless there is **breakout confirmation** from other reports.
+
+            ---
+
+            ### 3. Trend Report:
+            - Analyze how price interacts with support and resistance:
+            - An **upward sloping support line** suggests buying interest.
+            - A **downward sloping resistance line** suggests selling pressure.
+            - If price is compressing between trendlines:
+            - Predict breakout **only when confluence exists with strong candles or indicator confirmation**.
+            - **Do NOT assume breakout direction** from geometry alone.
+
+            ---
+
+            ### ✅ Decision Strategy
+
+            1. Only act on **confirmed** signals — avoid emerging, speculative, or conflicting signals.
+            2. Prioritize decisions where **all three reports** (Indicator, Pattern, and Trend) **align in the same direction**.
+            3. Give more weight to:
+            - Recent strong momentum (e.g., MACD crossover, RSI breakout)
+            - Decisive price action (e.g., breakout candle, rejection wicks, support bounce)
+            4. If reports disagree:
+            - Choose the direction with **stronger and more recent confirmation**
+            - Prefer **momentum-backed signals** over weak oscillator hints.
+            5. ⚖️ If the market is in consolidation or reports are mixed:
+            - Default to the **dominant trendline slope** (e.g., SHORT in descending channel).
+            - Do not guess direction — choose the **more defensible** side.
+            6. Suggest a reasonable **risk-reward ratio** between **1.2 and 1.8**, based on current volatility and trend strength.
+
+            ---
+            ### 🧠 Output Format in json(for system parsing):
+
+            ```
+            {
+            "forecast_horizon": "Predicting next 3 candlestick (15 minutes, 1 hour, etc.)",
+            "decision": "<LONG or SHORT>",
+            "justification": "<Concise, confirmed reasoning based on reports>",
+            "risk_reward_ratio": "<float between 1.2 and 1.8>",
+            }
+
+            --------
+            **Technical Indicator Report**  
+            # Indicator Analysis — 4H Klines (latest bar: 2025-05-14 04:00, Close 103,944.93)
+
+## Latest Readings
+
+| Indicator | Latest | Prior | Read |
+|-----------|--------|-------|------|
+| **RSI(14)** | 55.62 | 54.41 | Neutral, mid-range, no exhaustion |
+| **MACD (12/26/9)** | 529.79 | 540.15 | Positive (bullish regime) but below signal |
+| **MACD Signal** | 634.82 | 661.07 | — |
+| **MACD Hist** | −105.02 | −129.45 | Negative but **narrowing** (improving) |
+| **ROC(10)** | +2.05% | +1.16% | Positive & rising — momentum still up |
+| **Stoch %K** | 59.42 | 60.46 | Rolling over from ~85 |
+| **Stoch %D** | 62.46 | 65.35 | %K crossing **below** %D |
+| **Williams %R(14)** | −36.75 | −41.22 | Mid/upper-neutral, no extreme |
+
+## Interpretation
+
+**Trend / Structure — Bullish but stalling.** Price sits near all-time highs (~105.8k peak) and MACD remains well above zero (~+530), confirming the dominant 4H uptrend is intact. However, MACD has slipped *below* its signal line, and the histogram is negative — momentum is decelerating even though the uptrend hasn't broken.
+
+**Momentum — Cooling, not reversing.** ROC (+2.05% and rising) shows the impulse is still net positive, but the Stochastic has rolled off the ~85 overbought zone and %K just crossed beneath %D — a classic short-term stall/consolidation signal. RSI at 55.6 confirms there's no overbought pressure forcing a drop; plenty of room in both directions.
+
+**Overbought/Oversold — Neutral.** Williams %R −36.75 sits square in the middle (nowhere near −80 oversold or −20 overbought). No reversion edge right now.
+
+## Trading Implication (HFT lens)
+
+- **Bias: cautiously bullish / range-consolidation.** This is a *digestion phase* within an uptrend, not a reversal.
+- **The tell is the MACD histogram:** it's negative but improving (−129 → −105 → narrowing). A turn back above zero would be the clean long re-entry trigger, aligning with %K curling back up.
+- **Short-term risk:** %K<%D + MACD<signal means don't chase longs into strength here; the immediate mini-trend is down/flat.
+- **Levels to watch:** price is coiling in the **103,500–104,800** shelf. A break above ~104,800 reasserts bullish momentum (target prior high 105,819); loss of ~103,400 opens a deeper retrace toward the 102,500 area.
+- **Actionable stance:** Stay long-biased *on confirmation* (MACD hist turning positive or %K recrossing %D upward). Avoid new longs on the current mid-range stall; short-term scalps could fade the 104,800 resistance while the momentum oscillators are flat.
+
+**Net: Constructive structure, neutral short-term momentum — wait for the histogram/%K turn before adding risk; respect the 103.4k–104.8k range.**
+
+            **Pattern Report**  
+            The chart most closely matches a **Bullish Flag** (with a smaller **V-shaped reversal / double-bottom-like shakeout** at the pullback low).
+
+**Reasoning:**
+- **Strong prior uptrend (“flagpole”):** Price rallies sharply from roughly 96k to the 104k–105k area over the left side of the chart. This provides the strong directional move that precedes a flag pattern.
+- **Consolidation/flag:** After that rally, price enters a high-level consolidation roughly between 102k support and 105k resistance. The pullback is relatively shallow compared with the size of the prior advance, which is typical of a bullish flag rather than a reversal.
+- **Shakeout and recovery:** Price briefly drops toward the lower 102k area, then recovers quickly with strong green candles back toward 104k–105k. This resembles a V-shaped intra-consolidation reversal or a small double-bottom-like shakeout.
+- **Symmetry/trend:** The overall structure remains bullish: a sharp advance followed by a compact sideways-to-downward consolidation and then an upward resolution. This favors continuation rather than a major top.
+
+A broader view could also describe the middle section as a **rectangle/high-level base**, but because it follows a sharp rally and resolves upward, **Bullish Flag** is the better classic pattern match. A decisive break and close above the ~105k resistance area would confirm the bullish continuation; a sustained break below ~102k would weaken/invalidate the pattern.
+
+            **Trend Report**  
+            Based on the provided 4-hour candlestick chart, here is an analysis of the price interaction with the automated trendlines and a short-term trend prediction.
+
+### 1. Trendline Characteristics & Price Interaction
+*   **Structure:** The chart displays a clear **ascending channel**, where both the blue support line and the red resistance line are sloping upward. 
+*   **Slope & Spacing:** The channel has a moderate upward slope, indicating a bullish underlying trend. The spacing between the lines is relatively wide, allowing for significant volatility and swings within the channel.
+*   **Interaction Analysis:**
+    *   **Initial Phase (Left):** Price bounced strongly off the blue support line and trended upward.
+    *   **Mid Phase (Center):** Price approached the red resistance line, compressing against it. Candles struggled to break through the red line, leading to a sideways consolidation near the top of the channel.
+    *   **Recent Phase (Right):** Price experienced a sharp rejection from the resistance area, pulling back significantly (red candles). It has now traveled down to the lower boundary of the channel.
+    *   **Current State:** The most recent candles are touching or bouncing directly off the **blue support line**. The second-to-last candle shows a long lower wick, indicating buyers stepped in to defend the support level. 
+
+### 2. Key Signals
+*   **Support Bounce:** The blue line has proven to be a robust dynamic support level (validated at the start of the chart and currently). Price is currently reacting positively at this level.
+*   **Candle Morphology:** The recent green candles and lower wicks at the bottom of the channel suggest that selling pressure is exhausting, and demand is absorbing the recent dip.
+*   **Channel Dynamics:** In a well-defined ascending channel, price tends to oscillate between the boundaries. Reaching the lower support bound often precedes a move back toward the upper resistance bound.
+
+### 3. Prediction: **Upward**
+**Reasoning:** 
+The overarching market structure is bullish (ascending channel). After a short-term correction from the resistance line, the price has successfully found a floor at the blue support trendline. The presence of lower wicks on recent candles at this support level signals a rejection of lower prices. 
+
+Given that the broader trend is up and price is at a historically strong dynamic support level, the highest probability scenario is a **short-term upward bounce**. Price is likely to begin reverting toward the median or upper half of the channel in the coming 4-hour candles. 
+
+*Note: If the price closes decisively below the blue support line with a strong red candle, this upward thesis would be invalidated, signaling a potential trend reversal or a deeper breakdown.*
+
+        

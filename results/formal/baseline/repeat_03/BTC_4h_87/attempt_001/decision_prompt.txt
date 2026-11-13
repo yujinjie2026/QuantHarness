@@ -1,0 +1,117 @@
+You are a high-frequency quantitative trading (HFT) analyst operating on the current 4hour K-line chart for BTC. Your task is to issue an **immediate execution order**: **LONG** or **SHORT**. ⚠️ HOLD is prohibited due to HFT constraints.
+
+            Your decision should forecast the market move over the **next N candlesticks**, where:
+            - For example: TIME_FRAME = 15min, N = 1 → Predict the next 15 minutes.
+            - TIME_FRAME = 4hour, N = 1 → Predict the next 4 hours.
+
+            Base your decision on the combined strength, alignment, and timing of the following three reports:
+
+            ---
+
+            ### 1. Technical Indicator Report:
+            - Evaluate momentum (e.g., MACD, ROC) and oscillators (e.g., RSI, Stochastic, Williams %R).
+            - Give **higher weight to strong directional signals** such as MACD crossovers, RSI divergence, extreme overbought/oversold levels.
+            - **Ignore or down-weight neutral or mixed signals** unless they align across multiple indicators.
+
+            ---
+
+            ### 2. Pattern Report:
+            - Only act on bullish or bearish patterns if:
+            - The pattern is **clearly recognizable and mostly complete**, and
+            - A **breakout or breakdown is already underway** or highly probable based on price and momentum (e.g., strong wick, volume spike, engulfing candle).
+            - **Do NOT act** on early-stage or speculative patterns. Do not treat consolidating setups as tradable unless there is **breakout confirmation** from other reports.
+
+            ---
+
+            ### 3. Trend Report:
+            - Analyze how price interacts with support and resistance:
+            - An **upward sloping support line** suggests buying interest.
+            - A **downward sloping resistance line** suggests selling pressure.
+            - If price is compressing between trendlines:
+            - Predict breakout **only when confluence exists with strong candles or indicator confirmation**.
+            - **Do NOT assume breakout direction** from geometry alone.
+
+            ---
+
+            ### ✅ Decision Strategy
+
+            1. Only act on **confirmed** signals — avoid emerging, speculative, or conflicting signals.
+            2. Prioritize decisions where **all three reports** (Indicator, Pattern, and Trend) **align in the same direction**.
+            3. Give more weight to:
+            - Recent strong momentum (e.g., MACD crossover, RSI breakout)
+            - Decisive price action (e.g., breakout candle, rejection wicks, support bounce)
+            4. If reports disagree:
+            - Choose the direction with **stronger and more recent confirmation**
+            - Prefer **momentum-backed signals** over weak oscillator hints.
+            5. ⚖️ If the market is in consolidation or reports are mixed:
+            - Default to the **dominant trendline slope** (e.g., SHORT in descending channel).
+            - Do not guess direction — choose the **more defensible** side.
+            6. Suggest a reasonable **risk-reward ratio** between **1.2 and 1.8**, based on current volatility and trend strength.
+
+            ---
+            ### 🧠 Output Format in json(for system parsing):
+
+            ```
+            {
+            "forecast_horizon": "Predicting next 3 candlestick (15 minutes, 1 hour, etc.)",
+            "decision": "<LONG or SHORT>",
+            "justification": "<Concise, confirmed reasoning based on reports>",
+            "risk_reward_ratio": "<float between 1.2 and 1.8>",
+            }
+
+            --------
+            **Technical Indicator Report**  
+            ## Indicator snapshot — latest 4H bar: 2024-01-21 23:00  
+**Close:** 41,043.70
+
+| Indicator | Latest value | Interpretation |
+|---|---:|---|
+| **RSI(14)** | **35.50** | Weak, approaching oversold (30), but not yet a reversal signal |
+| **MACD(12,26,9)** | MACD **-254.14** / Signal **-262.22** / Hist **+8.08** | MACD is below zero = bearish regime; histogram is still positive but fading sharply from 37.10 |
+| **ROC(10)** | **-1.27%** | Negative 40-hour momentum |
+| **Stochastic %K / %D** | **36.69 / 53.32** | Bearish crossover; %K falling and below %D, not yet oversold |
+| **Williams %R(14)** | **-69.96** | Weak/negative, but above the -80 oversold threshold |
+
+## Read
+- **Overall bias: bearish/weak.** Price has moved down from the ~47k area and recent structure shows lower highs/lows.
+- **Momentum is negative but stretched.** RSI near 35 and Williams %R near -70 suggest downside momentum is extended, raising short-term bounce/consolidation risk.
+- **MACD is still technically above its signal line**, but the histogram is collapsing. A flip below zero would confirm renewed downside momentum.
+- **Stochastic is the clearest short-term bearish signal** — %K has dropped below %D and is still falling.
+
+## Execution view
+- **Bearish continuation confirmation:** RSI breaks below 30 and MACD histogram turns negative.
+- **Short-term relief/bounce trigger:** price reclaims **41,650–41,800** while RSI and stochastic turn up.
+- **Bias:** fade rallies while below **41,800**, but be cautious chasing shorts into oversold conditions without fresh momentum confirmation.
+
+            **Pattern Report**  
+            **Indicator summary — 4H data, latest close 41,043.70**
+
+- **RSI(14): 35.50** — weak and approaching oversold, but no reversal confirmation.
+- **MACD:** MACD **-254.14**, signal **-262.22**, histogram **+8.08** — still above signal, but the histogram is shrinking sharply; underneath, the MACD line remains below zero.
+- **ROC(10): -1.27%** — negative short-term momentum.
+- **Stochastic:** %K **36.69** vs %D **53.32** — bearish crossover; %K is falling.
+- **Williams %R(14): -69.96** — weak, but not yet oversold.
+
+**Read:** Bearish/weak bias. Momentum is negative but extended enough that a short-term bounce is possible. Stochastic favors sellers; MACD is weakening but has not yet confirmed a fresh bearish cross.
+
+**Watch:** Bearish continuation if RSI breaks 30 and MACD histogram turns negative. Relief bounce if price reclaims **41,650–41,800** and RSI/stochastic turn up.
+
+            **Trend Report**  
+            Based on the provided 4-hour candlestick chart with automated support and resistance trendlines, here is the analysis:
+
+**Prediction:** **Downward**
+
+**Reasoning:**
+*   **Trendline Slopes:** Both the red resistance line and the blue support line have a clear downward slope. This indicates a prevailing bearish macro-trend within the analyzed timeframe.
+*   **Price Interaction & Breakthrough:** Around January 17th, the price experienced a significant bearish breakdown, aggressively slicing through the blue support line and dropping from ~42500 to ~41000. 
+*   **Recent K-line Behavior:** Following the breakdown, the price entered a period of consolidation, forming a potential "bearish flag" pattern. The most recent candles on the right edge of the chart show a breakdown from this tight consolidation range, with renewed downward momentum (indicated by the latest red candles).
+*   **Spacing:** The price is currently trapped in the lower half of the channel, consistently failing to reach the red resistance line and experiencing rejection at the former support level, which now acts as a ceiling. 
+
+**Signals:**
+*   **Support Breakout:** The decisive break below the blue support line earlier in the chart was a strong bearish signal.
+*   **Lower Highs:** The inability of the price to rally back toward the red resistance line shows weakening buying pressure.
+*   **Continuation Pattern:** The recent sideways compression followed by a downward break suggests a bearish continuation, with sellers regaining control.
+
+**Conclusion:** Given the downward-sloping trendlines, the prior support breakdown, and the latest bearish candle action, the short-term trend is likely to continue **downward**.
+
+        

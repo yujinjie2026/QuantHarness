@@ -1,0 +1,22 @@
+{
+  "attempt": "attempt_001",
+  "finished_at": "2026-11-08T18:57:16+08:00",
+  "elapsed_seconds": 110.39,
+  "score": {
+    "prediction": "SHORT",
+    "reference_close": 26126.66,
+    "future_closes": [
+      26247.7,
+      26221.67,
+      26278.04
+    ],
+    "hits": 0,
+    "comparisons": 3,
+    "accuracy_percent": 0.0
+  },
+  "artifact_sha256": {
+    "history.csv": "a562de53ca86443e7f9bff4d1a3df50482af445e4cb8c448055364c9a01de678",
+    "future.csv": "f24a4d61c7a68f91bb55ddee2ce82658b558b11276aaf6aa7c94ff5a5d464087",
+    "reports.json": "6b3053369c655bd578f86ae020b13e783e24a1d940c14668911f2b8d97d22980"
+  }
+}

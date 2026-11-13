@@ -1,0 +1,126 @@
+You are a high-frequency quantitative trading (HFT) analyst operating on the current 4hour K-line chart for BTC. Your task is to issue an **immediate execution order**: **LONG** or **SHORT**. ⚠️ HOLD is prohibited due to HFT constraints.
+
+            Your decision should forecast the market move over the **next N candlesticks**, where:
+            - For example: TIME_FRAME = 15min, N = 1 → Predict the next 15 minutes.
+            - TIME_FRAME = 4hour, N = 1 → Predict the next 4 hours.
+
+            Base your decision on the combined strength, alignment, and timing of the following three reports:
+
+            ---
+
+            ### 1. Technical Indicator Report:
+            - Evaluate momentum (e.g., MACD, ROC) and oscillators (e.g., RSI, Stochastic, Williams %R).
+            - Give **higher weight to strong directional signals** such as MACD crossovers, RSI divergence, extreme overbought/oversold levels.
+            - **Ignore or down-weight neutral or mixed signals** unless they align across multiple indicators.
+
+            ---
+
+            ### 2. Pattern Report:
+            - Only act on bullish or bearish patterns if:
+            - The pattern is **clearly recognizable and mostly complete**, and
+            - A **breakout or breakdown is already underway** or highly probable based on price and momentum (e.g., strong wick, volume spike, engulfing candle).
+            - **Do NOT act** on early-stage or speculative patterns. Do not treat consolidating setups as tradable unless there is **breakout confirmation** from other reports.
+
+            ---
+
+            ### 3. Trend Report:
+            - Analyze how price interacts with support and resistance:
+            - An **upward sloping support line** suggests buying interest.
+            - A **downward sloping resistance line** suggests selling pressure.
+            - If price is compressing between trendlines:
+            - Predict breakout **only when confluence exists with strong candles or indicator confirmation**.
+            - **Do NOT assume breakout direction** from geometry alone.
+
+            ---
+
+            ### ✅ Decision Strategy
+
+            1. Only act on **confirmed** signals — avoid emerging, speculative, or conflicting signals.
+            2. Prioritize decisions where **all three reports** (Indicator, Pattern, and Trend) **align in the same direction**.
+            3. Give more weight to:
+            - Recent strong momentum (e.g., MACD crossover, RSI breakout)
+            - Decisive price action (e.g., breakout candle, rejection wicks, support bounce)
+            4. If reports disagree:
+            - Choose the direction with **stronger and more recent confirmation**
+            - Prefer **momentum-backed signals** over weak oscillator hints.
+            5. ⚖️ If the market is in consolidation or reports are mixed:
+            - Default to the **dominant trendline slope** (e.g., SHORT in descending channel).
+            - Do not guess direction — choose the **more defensible** side.
+            6. Suggest a reasonable **risk-reward ratio** between **1.2 and 1.8**, based on current volatility and trend strength.
+
+            ---
+            ### 🧠 Output Format in json(for system parsing):
+
+            ```
+            {
+            "forecast_horizon": "Predicting next 3 candlestick (15 minutes, 1 hour, etc.)",
+            "decision": "<LONG or SHORT>",
+            "justification": "<Concise, confirmed reasoning based on reports>",
+            "risk_reward_ratio": "<float between 1.2 and 1.8>",
+            }
+
+            --------
+            **Technical Indicator Report**  
+            ## 4H Indicator Readout — BTC (last close 66,819.32)
+
+| Indicator | Latest | Signal |
+|---|---|---|
+| RSI(14) | **66.58** (↑ from 60.7 → 61.5 → 64.8) | Bullish, pressing toward overbought (70) — ~3.4 pts of headroom |
+| MACD(12,26,9) | **+652.5 / signal 470.2 / hist +182.3** | Bullish; MACD above signal and histogram **expanding** (143→163→182) = accelerating momentum |
+| Stoch(14) | **%K 87.3 / %D 85.6** | **Overbought**; K just crossed back above D (K 85.6→87.3) — late-stage thrust, chase risk |
+| Williams %R(14) | **−13.79** (from −9.22) | Overbought zone (>−20) but mildly cooling — first sign of stalling |
+| ROC(10) | **+2.56%** (2.08 → 2.56) | Positive, modestly accelerating — trend intact, not parabolic |
+
+### Structure
+- Recovery leg off the ~59,600–60,300 capitulation low: 63,437 → 64,538 → 64,941 → 65,703 → 65,980 → 66,819. **8 consecutive higher closes** — clean impulse.
+- Still **~4.4% below the 70,977 (Apr 11) swing high**; current action is a reclaim of the mid-range, not a new high.
+- **Volume is the tell:** the rally has printed 7,920 → 6,098 → 5,461 → 4,575 → 3,938 — **declining volume into resistance**. Distribution risk on the last leg.
+- Price is now into the 66,800–67,230 supply shelf (Apr 13 high 67,929 just above).
+
+### Fast Trade Bias
+**Constructive but do not chase here.** Momentum (MACD/ROC) supports continuation, but Stoch %K/%D and %R are pinned overbought with volume fading — 4H chasing risk is asymmetry-unfavorable at 66.8k.
+
+- **Primary:** Buy the dip. Limit bids **66,000–66,300** (prior breakout shelf). Stop **below 65,200** (below the 65,509/65,626 consolidation floor). First target **67,230**, second **67,900–68,000**.
+- **Breakout trigger:** Only long continuation on a 4H close **> 67,250 with volume > 6,500** (above the recent fade). That opens 68,000 → 69,300.
+- **Short scalp (counter):** 67,900–68,000 rejection with %R rolling back under −50 and %K crossing down through %D. Tight stop 68,300, target 66,400.
+- **Kill switch:** 4H close back below **65,500** invalidates the impulse leg — flatten and look to the 63,500–64,000 gap zone.
+
+**Bottom line:** Trend momentum long, but extended and under-supported by volume — favor pullback entries over breakout chases; let %R cool toward −50 or RSI toward ~58 as the low-risk reload window.
+
+            **Pattern Report**  
+            Yes. The chart most clearly matches a **Double Bottom** reversal, with a **Bullish Flag / continuation consolidation** after the breakout.
+
+**Double Bottom reasoning:**
+- Price declines from roughly **64,000–64,500** into the **60,000** area.
+- A first low forms near **60,000**, followed by a rebound toward **63,500–64,000**.
+- Price then retests the low, forming a second low near **59,700–60,000** with a long lower wick. The two lows are similar and separated by a rebound, creating a **“W” shape**.
+- The strong bullish candle out of the second low breaks above the neckline/resistance near **63,500–64,000**, confirming the double bottom.
+- The measured move from the base depth projects toward roughly **67,000**, which is essentially where price rallies.
+
+**Bullish Flag reasoning:**
+- After the reversal, there is a sharp rally from about **60,000** to **65,500**.
+- Price then pauses and consolidates slightly downward/sideways around **64,000–65,500**.
+- It subsequently breaks above that consolidation and continues to new highs near **67,000**, consistent with a bullish flag/continuation pattern.
+
+The structure is too sharp and retested to be a clean rounded bottom, and there are not three symmetrical lows for an inverse head-and-shoulders. A V-shaped recovery is present, but the retest makes **Double Bottom** the more precise bottoming pattern.
+
+            **Trend Report**  
+            Based on the analysis of the candlestick chart and the automated trendlines, here is the prediction and reasoning:
+
+### Prediction: **Upward**
+
+### Reasoning:
+1.  **Trendline Slopes and Spacing:** The blue support line has a steep, consistent upward slope, indicating a strong underlying bullish momentum. The red resistance line is relatively flat. This setup creates an ascending triangle-like pattern, which typically resolves to the upside.
+2.  **Price Interaction:** 
+    *   Earlier in the chart (around April 17), the price touched the blue support line and firmly bounced off it multiple times, establishing a strong floor.
+    *   Following the bounce, the price formed a series of higher lows, steadily climbing along the support line's trajectory.
+    *   On the far right side, the recent candles are predominantly strong bullish (green) candles that have pushed through and closed **above** the red resistance line. 
+
+### Signals:
+*   **Bullish Breakout:** The most significant signal is the recent breakout above the red resistance line. The latest candles show the price action overcoming this barrier, which is a classic continuation signal for an uptrend.
+*   **Strong Support:** The blue line has proven to be a reliable support level, catching dips and propelling the price higher.
+*   **Higher Highs and Higher Lows:** The overall structure of the price action shows an upward trajectory, with recent highs exceeding previous ones.
+
+Given the strong upward support and the recent breakout above resistance, the short-term outlook is bullish.
+
+        

@@ -1,0 +1,107 @@
+You are a high-frequency quantitative trading (HFT) analyst operating on the current 4hour K-line chart for BTC. Your task is to issue an **immediate execution order**: **LONG** or **SHORT**. ⚠️ HOLD is prohibited due to HFT constraints.
+
+            Your decision should forecast the market move over the **next N candlesticks**, where:
+            - For example: TIME_FRAME = 15min, N = 1 → Predict the next 15 minutes.
+            - TIME_FRAME = 4hour, N = 1 → Predict the next 4 hours.
+
+            Base your decision on the combined strength, alignment, and timing of the following three reports:
+
+            ---
+
+            ### 1. Technical Indicator Report:
+            - Evaluate momentum (e.g., MACD, ROC) and oscillators (e.g., RSI, Stochastic, Williams %R).
+            - Give **higher weight to strong directional signals** such as MACD crossovers, RSI divergence, extreme overbought/oversold levels.
+            - **Ignore or down-weight neutral or mixed signals** unless they align across multiple indicators.
+
+            ---
+
+            ### 2. Pattern Report:
+            - Only act on bullish or bearish patterns if:
+            - The pattern is **clearly recognizable and mostly complete**, and
+            - A **breakout or breakdown is already underway** or highly probable based on price and momentum (e.g., strong wick, volume spike, engulfing candle).
+            - **Do NOT act** on early-stage or speculative patterns. Do not treat consolidating setups as tradable unless there is **breakout confirmation** from other reports.
+
+            ---
+
+            ### 3. Trend Report:
+            - Analyze how price interacts with support and resistance:
+            - An **upward sloping support line** suggests buying interest.
+            - A **downward sloping resistance line** suggests selling pressure.
+            - If price is compressing between trendlines:
+            - Predict breakout **only when confluence exists with strong candles or indicator confirmation**.
+            - **Do NOT assume breakout direction** from geometry alone.
+
+            ---
+
+            ### ✅ Decision Strategy
+
+            1. Only act on **confirmed** signals — avoid emerging, speculative, or conflicting signals.
+            2. Prioritize decisions where **all three reports** (Indicator, Pattern, and Trend) **align in the same direction**.
+            3. Give more weight to:
+            - Recent strong momentum (e.g., MACD crossover, RSI breakout)
+            - Decisive price action (e.g., breakout candle, rejection wicks, support bounce)
+            4. If reports disagree:
+            - Choose the direction with **stronger and more recent confirmation**
+            - Prefer **momentum-backed signals** over weak oscillator hints.
+            5. ⚖️ If the market is in consolidation or reports are mixed:
+            - Default to the **dominant trendline slope** (e.g., SHORT in descending channel).
+            - Do not guess direction — choose the **more defensible** side.
+            6. Suggest a reasonable **risk-reward ratio** between **1.2 and 1.8**, based on current volatility and trend strength.
+
+            ---
+            ### 🧠 Output Format in json(for system parsing):
+
+            ```
+            {
+            "forecast_horizon": "Predicting next 3 candlestick (15 minutes, 1 hour, etc.)",
+            "decision": "<LONG or SHORT>",
+            "justification": "<Concise, confirmed reasoning based on reports>",
+            "risk_reward_ratio": "<float between 1.2 and 1.8>",
+            }
+
+            --------
+            **Technical Indicator Report**  
+            ## Indicator Analysis — 4H Chart (latest bar: 2023-06-07 04:00, Close 26,896.14)
+
+### Computed Readings (most recent values)
+
+| Indicator | Latest | Signal |
+|-----------|--------|--------|
+| **RSI (14)** | **54.0** (from 61→58→54) | Neutral, midline — room in both directions |
+| **MACD** | Line **-62.8** vs Signal **-171.9** | Bullish crossover; histogram **+109** and expanding |
+| **ROC (10)** | **+4.94%** (rising: 0.5→3.0→4.9) | Positive, accelerating momentum |
+| **Stoch %K / %D** | **73.5 / 77.8** | Overbought; %K crossing **below** %D |
+| **Williams %R (14)** | **-24.3** | Approaching overbought (>-20) |
+
+### Interpretation
+
+**Momentum / Trend (MACD + ROC):** The MACD line has decisively crossed above its signal line and the histogram is expanding **+109** — this is a genuine bullish reversal initiating from a deep washout (histogram bottomed near **-160** during the drop to ~25,600). The MACD line is still below zero (-62.8), so this is an *early-stage* trend reversal, not yet confirmed trend — but it's the strongest bullish structural signal on the board. ROC confirms: 10-period return now **+4.94%** and climbing, so price velocity has flipped firmly positive.
+
+**RSI:** Recovered from a deeply oversold **~22** (the 25,600 capitulation low) to **54**. This is a healthy reset — no longer oversold, not yet overbought — meaning there is runway for continuation before momentum exhausts.
+
+**Short-term overbought (Stoch + Williams %R):** This is the one caution flag. Stoch is high (~74/78) with **%K hooking below %D**, and Williams %R at **-24** is pressing toward overbought. Both point to a **short-term consolidation or minor pullback** inside an otherwise bullish swing — consistent with the last 3 bars stalling (27,230 → 26,909 → 26,796 → 26,896) after the sharp 26,066 → 27,230 thrust.
+
+### Trading Bias
+- **Primary bias: Bullish reversal / buy-the-dip.** MACD cross + positive ROC + mid-range RSI favor longs on pullbacks.
+- **Tactical caution:** Stoch/WillR overbought → avoid chasing at 27,000+. Prefer entries on dips into support.
+- **Key levels:** Support zone **26,600–26,800** (recent consolidation shelf); break below 26,500 undermines the reversal. Resistance **27,350–27,400** (recent swing high) — a clean break opens continuation.
+- **Actionable:** Long setup preferred near 26,600–26,800 with stop under ~26,500, targeting the 27,350 break. If price instead pushes into 27,350+ with Stoch extended, expect a snap-back — tighten risk.
+
+**Bottom line:** Structurally bullish (MACD/ROC), tactically extended (Stoch/WillR). Favor buying dips rather than chasing strength.
+
+            **Pattern Report**  
+            I'll now generate the candlestick chart to visually confirm the price structure and check for any classical patterns that the indicators hint at (the deep washout to ~25,600 followed by the sharp recovery suggests a potential reversal formation worth confirming).
+
+            **Trend Report**  
+            **Prediction: short-term upward bias, pending confirmation above the red resistance line.**
+
+**Reasoning / signals**
+- **Trendline structure:** Both lines slope downward, with the red resistance falling gently from ~27,800 toward ~27,200 and the blue support falling more steeply toward ~25,300. Price is no longer centered between the lines; after a sharp selloff, it has recovered toward the upper boundary.
+- **Recent interaction:** Price broke below the blue support around early June, flushed to ~25,500–25,700, then reversed sharply with strong green candles. That quick reclaim suggests a **failed breakdown / bullish shakeout**.
+- **Current behavior:** The most recent candles are compressing just under the descending red resistance near **27,200–27,300**. They show higher lows and only shallow pullbacks after the strong rebound, indicating buyers are still active and pressure is building against resistance.
+- **Confirmation signal:** A 4H close above roughly **27,250–27,300** would confirm the upward breakout, with room toward **27,500–27,800**.
+- **Invalidation:** If price rejects sharply at the red line and loses **~26,700–26,500**, the bias would shift back to sideways or downward; a deeper break below the blue support would be bearish.
+
+**Bottom line:** The chart shows a bearish-to-bullish reversal attempt, and price is now testing resistance. The likely short-term path is **upward if resistance breaks**; otherwise, expect **sideways consolidation** beneath the red line before the next directional move.
+
+        

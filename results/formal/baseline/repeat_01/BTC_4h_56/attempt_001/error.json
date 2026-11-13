@@ -1,0 +1,222 @@
+{
+  "time": "2026-11-07T21:11:43+08:00",
+  "type": "KeyboardInterrupt",
+  "message": "",
+  "traceback": [
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/run_btc.py",
+      "line": 210,
+      "function": "run_sample"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/pregel/main.py",
+      "line": 3060,
+      "function": "stream"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/pregel/_runner.py",
+      "line": 204,
+      "function": "tick"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/pregel/_retry.py",
+      "line": 637,
+      "function": "run_with_retry"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/_internal/_runnable.py",
+      "line": 794,
+      "function": "invoke"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/_internal/_runnable.py",
+      "line": 479,
+      "function": "invoke"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/trend_agent.py",
+      "line": 136,
+      "function": "trend_agent_node"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/trend_agent.py",
+      "line": 20,
+      "function": "invoke_with_retry"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py",
+      "line": 529,
+      "function": "invoke"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py",
+      "line": 1920,
+      "function": "generate_prompt"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py",
+      "line": 1727,
+      "function": "generate"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py",
+      "line": 2065,
+      "function": "_generate_with_cache"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/deepseek_adapter.py",
+      "line": 144,
+      "function": "_generate"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_openai/chat_models/base.py",
+      "line": 1996,
+      "function": "_generate"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/openai/_legacy_response.py",
+      "line": 364,
+      "function": "wrapped"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/openai/_utils/_utils.py",
+      "line": 298,
+      "function": "wrapper"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/openai/resources/chat/completions/completions.py",
+      "line": 1611,
+      "function": "create"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/openai/_base_client.py",
+      "line": 1474,
+      "function": "post"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/openai/_base_client.py",
+      "line": 1183,
+      "function": "request"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/openai/_client.py",
+      "line": 211,
+      "function": "_send_request"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/openai/lib/_client_auth.py",
+      "line": 328,
+      "function": "sync_send_request"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/openai/_client.py",
+      "line": 197,
+      "function": "_send_with_auth_retry"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/openai/lib/_client_auth.py",
+      "line": 313,
+      "function": "sync_send_with_auth_retry"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/openai/_base_client.py",
+      "line": 1104,
+      "function": "_send_request"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpx/_client.py",
+      "line": 914,
+      "function": "send"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpx/_client.py",
+      "line": 942,
+      "function": "_send_handling_auth"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpx/_client.py",
+      "line": 999,
+      "function": "_send_handling_redirects"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpx/_client.py",
+      "line": 982,
+      "function": "_send_handling_redirects"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/deepseek_adapter.py",
+      "line": 82,
+      "function": "record"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpx/_models.py",
+      "line": 881,
+      "function": "read"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpx/_models.py",
+      "line": 897,
+      "function": "iter_bytes"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpx/_models.py",
+      "line": 951,
+      "function": "iter_raw"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpx/_client.py",
+      "line": 153,
+      "function": "__iter__"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpx/_transports/default.py",
+      "line": 127,
+      "function": "__iter__"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py",
+      "line": 407,
+      "function": "__iter__"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpcore/_sync/connection_pool.py",
+      "line": 403,
+      "function": "__iter__"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpcore/_sync/http11.py",
+      "line": 342,
+      "function": "__iter__"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpcore/_sync/http11.py",
+      "line": 334,
+      "function": "__iter__"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpcore/_sync/http11.py",
+      "line": 203,
+      "function": "_receive_response_body"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpcore/_sync/http11.py",
+      "line": 217,
+      "function": "_receive_event"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/httpcore/_backends/sync.py",
+      "line": 128,
+      "function": "read"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/ssl.py",
+      "line": 1308,
+      "function": "recv"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/ssl.py",
+      "line": 1181,
+      "function": "read"
+    }
+  ]
+}

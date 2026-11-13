@@ -1,0 +1,87 @@
+{
+  "time": "2026-11-08T15:34:56+08:00",
+  "type": "ValueError",
+  "message": "DeepSeek输出达到max_tokens上限，结果不完整，未作为成功样本评分。请检查输出长度设置后再开始新的实验配置。",
+  "traceback": [
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/run_btc.py",
+      "line": 210,
+      "function": "run_sample"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/pregel/main.py",
+      "line": 3060,
+      "function": "stream"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/pregel/_runner.py",
+      "line": 204,
+      "function": "tick"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/pregel/_retry.py",
+      "line": 637,
+      "function": "run_with_retry"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/_internal/_runnable.py",
+      "line": 794,
+      "function": "invoke"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langgraph/_internal/_runnable.py",
+      "line": 479,
+      "function": "invoke"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/indicator_agent.py",
+      "line": 54,
+      "function": "indicator_agent_node"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_core/runnables/base.py",
+      "line": 3475,
+      "function": "invoke"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_core/runnables/base.py",
+      "line": 6001,
+      "function": "invoke"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py",
+      "line": 529,
+      "function": "invoke"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py",
+      "line": 1920,
+      "function": "generate_prompt"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py",
+      "line": 1727,
+      "function": "generate"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_core/language_models/chat_models.py",
+      "line": 2065,
+      "function": "_generate_with_cache"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/deepseek_adapter.py",
+      "line": 144,
+      "function": "_generate"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/.conda/lib/python3.11/site-packages/langchain_openai/chat_models/base.py",
+      "line": 2014,
+      "function": "_generate"
+    },
+    {
+      "file": "/Users/davidyu/Documents/python/reproduction/deepseek_adapter.py",
+      "line": 187,
+      "function": "_create_chat_result"
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+You are a high-frequency quantitative trading (HFT) analyst operating on the current 4hour K-line chart for BTC. Your task is to issue an **immediate execution order**: **LONG** or **SHORT**. ⚠️ HOLD is prohibited due to HFT constraints.
+
+            Your decision should forecast the market move over the **next N candlesticks**, where:
+            - For example: TIME_FRAME = 15min, N = 1 → Predict the next 15 minutes.
+            - TIME_FRAME = 4hour, N = 1 → Predict the next 4 hours.
+
+            Base your decision on the combined strength, alignment, and timing of the following three reports:
+
+            ---
+
+            ### 1. Technical Indicator Report:
+            - Evaluate momentum (e.g., MACD, ROC) and oscillators (e.g., RSI, Stochastic, Williams %R).
+            - Give **higher weight to strong directional signals** such as MACD crossovers, RSI divergence, extreme overbought/oversold levels.
+            - **Ignore or down-weight neutral or mixed signals** unless they align across multiple indicators.
+
+            ---
+
+            ### 2. Pattern Report:
+            - Only act on bullish or bearish patterns if:
+            - The pattern is **clearly recognizable and mostly complete**, and
+            - A **breakout or breakdown is already underway** or highly probable based on price and momentum (e.g., strong wick, volume spike, engulfing candle).
+            - **Do NOT act** on early-stage or speculative patterns. Do not treat consolidating setups as tradable unless there is **breakout confirmation** from other reports.
+
+            ---
+
+            ### 3. Trend Report:
+            - Analyze how price interacts with support and resistance:
+            - An **upward sloping support line** suggests buying interest.
+            - A **downward sloping resistance line** suggests selling pressure.
+            - If price is compressing between trendlines:
+            - Predict breakout **only when confluence exists with strong candles or indicator confirmation**.
+            - **Do NOT assume breakout direction** from geometry alone.
+
+            ---
+
+            ### ✅ Decision Strategy
+
+            1. Only act on **confirmed** signals — avoid emerging, speculative, or conflicting signals.
+            2. Prioritize decisions where **all three reports** (Indicator, Pattern, and Trend) **align in the same direction**.
+            3. Give more weight to:
+            - Recent strong momentum (e.g., MACD crossover, RSI breakout)
+            - Decisive price action (e.g., breakout candle, rejection wicks, support bounce)
+            4. If reports disagree:
+            - Choose the direction with **stronger and more recent confirmation**
+            - Prefer **momentum-backed signals** over weak oscillator hints.
+            5. ⚖️ If the market is in consolidation or reports are mixed:
+            - Default to the **dominant trendline slope** (e.g., SHORT in descending channel).
+            - Do not guess direction — choose the **more defensible** side.
+            6. Suggest a reasonable **risk-reward ratio** between **1.2 and 1.8**, based on current volatility and trend strength.
+
+            ---
+            ### 🧠 Output Format in json(for system parsing):
+
+            ```
+            {
+            "forecast_horizon": "Predicting next 3 candlestick (15 minutes, 1 hour, etc.)",
+            "decision": "<LONG or SHORT>",
+            "justification": "<Concise, confirmed reasoning based on reports>",
+            "risk_reward_ratio": "<float between 1.2 and 1.8>",
+            }
+
+            --------
+            **Technical Indicator Report**  
+            ## Indicator Read — 4H BTC (last candle 2024‑01‑24 03:00 @ 40,209)
+
+**Context:** The series is a clear downtrend from ~48.9K (Jan 11 high) into a capitulation low of **38,555** (~Jan 23), now staging a bounce. Latest close 40,209 is off the lows. All four momentum oscillators are flipping up from deeply oversold — a textbook **counter‑trend bounce setup inside a larger downtrend.**
+
+| Indicator | Latest | Signal |
+|---|---|---|
+| **RSI (14)** | **45.9** (↑ from ~21) | Recovering out of oversold; now neutral. Room before overbought (>70). Bullish tilt. |
+| **MACD (12,26,9)** | MACD **‑540.9**, Signal **‑591.0**, Hist **+50.1** | Histogram just turned **positive & rising** (‑5 → +50). **Bullish crossover below zero** = early reversal signal. |
+| **ROC (10)** | **+0.98** (↑ from ‑6.9) | Momentum crossed back positive — buyers regaining control. |
+| **Stoch %K / %D** | **K 45.9 > D 38.7**, both rising from ~13 | **Bullish crossover out of oversold** — fresh upward momentum. |
+| **Williams %R (14)** | **‑40.2** (↑ from ‑94) | Recovered from extreme oversold; not yet overbought (needs >‑20). Upside runway. |
+
+### Synthesis
+- **Short-term bias: BULLISH (bounce).** Every momentum gauge is confirming the turn: Stoch K/D cross up, MACD hist positive, RSI + ROC + %R all rising in sync. Momentum is aligned for continuation higher near-term.
+- **Medium-term bias: still BEARISH.** MACD is deeply negative (>‑500) and RSI < 50 — the dominant 4H trend is down. This is a **relief rally**, not yet a trend reversal.
+
+### Execution notes
+- **Long scalp / momentum:** valid while price holds above the **38.5K** low; favor entries on dips with Stoch K>D intact. First upside targets = **41,000–41,300** (prior broken support → resistance), then **42,800**.
+- **Invalidation:** a close back below **39,500–38,500** kills the bounce; resume with the downtrend.
+- **Overbought trigger to fade/trim longs:** RSI >65–70 *and* Williams %R >‑20 *and* Stoch >80 — not yet hit, so the move has room.
+- **Caution:** MACD crossover is *below the zero line* = lower‑conviction reversal. Treat as a fast tactical long, not a structural bull entry until MACD reclaims zero and RSI clears 50.
+
+**Verdict:** Momentum-confirmed oversold bounce — tactical **long bias**, tight risk under 38.5K, watching the 41K resistance as the first real test.
+
+            **Pattern Report**  
+            The analysis is complete — all indicator tools have been run and interpreted. Here's the final summary:
+
+## 📊 Indicator Analysis Complete — 4H BTC
+
+**Setup: Momentum-confirmed oversold bounce (counter-trend long)**
+
+**Latest candle (2024-01-24 @ 40,209):**
+
+| Indicator | Value | Interpretation |
+|---|---|---|
+| RSI (14) | **45.9** ↑ from ~21 | Out of oversold, neutral, room to 70 |
+| MACD (12,26,9) | Hist **+50.1** (↑ from ‑5) | Bullish crossover below zero |
+| ROC (10) | **+0.98** ↑ from ‑6.9 | Momentum back positive |
+| Stoch %K/%D | **45.9 / 38.7** ↑ from ~13 | Bullish cross out of oversold |
+| Williams %R | **‑40.2** ↑ from ‑94 | Recovered, not yet overbought |
+
+### Key takeaway
+All five oscillators are **aligned to the upside** — a clean synchronized reversal signal off the **38,555** low. This supports a **fast tactical LONG** with tight risk.
+
+**However:** MACD still deeply negative (‑540) and RSI <50 confirm the **broader trend is still down**. This is a **relief rally / counter‑trend bounce**, not a structural reversal.
+
+### Trade plan
+- ✅ **Bias:** Long the bounce while Stoch K>D holds
+- 🛑 **Stop:** close below **38,500–39,500**
+- 🎯 **Targets:** 41,000–41,300 → 42,800
+- ⚠️ **Upgrade to trend-long only when** MACD reclaims zero **and** RSI > 50
+
+Analysis delivered. Let me know if you'd like me to run additional indicators (Bollinger, ATR, volume MA) or zoom the chart to verify the reversal structure.
+
+            **Trend Report**  
+            **Prediction: short-term upward bias (counter-trend rebound), likely testing the red resistance near 40,800–41,000.**
+
+**Reasoning**
+- **Trendline slopes:** Both the blue support and red resistance slope downward, so the broader structure is still a descending channel / bearish trend.
+- **Price interaction with support:** Recent candles dropped toward/briefly undercut the blue support zone around 38,700–39,000, then rebounded with long lower wicks and consecutive green candles. This looks like a failed breakdown / support rejection, which is bullish short-term.
+- **Price interaction with resistance:** Price has repeatedly been capped by the descending red resistance. It is currently below it, leaving room for a rebound toward roughly 40,800–41,000.
+- **Spacing:** The lines are not tightly compressing; the blue support is below and the red resistance is overhead. Price is closer to the resistance now, so the likely near-term move is an upward bounce into that resistance rather than an immediate squeeze breakout.
+
+**Signals**
+- **Bullish signals:** Reclaim of the blue support area, bullish reversal candles, last closes near highs, room up to red resistance.
+- **Bearish/risk signals:** The overall pattern still makes lower highs and lower lows; the red line is overhead resistance. If price rejects near 40,800–41,000, the downtrend could resume.
+- **Invalidation:** A close back below the recent low/support zone around 38,700–39,000 would weaken the rebound scenario.
+
+**Summary:** Short-term **upward** move toward red resistance is most likely; however, it is a rebound within a broader downtrend unless price decisively breaks and closes above the red line.
+
+        

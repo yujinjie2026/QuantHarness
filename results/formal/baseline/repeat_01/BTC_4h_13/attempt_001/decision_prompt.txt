@@ -1,0 +1,133 @@
+You are a high-frequency quantitative trading (HFT) analyst operating on the current 4hour K-line chart for BTC. Your task is to issue an **immediate execution order**: **LONG** or **SHORT**. ⚠️ HOLD is prohibited due to HFT constraints.
+
+            Your decision should forecast the market move over the **next N candlesticks**, where:
+            - For example: TIME_FRAME = 15min, N = 1 → Predict the next 15 minutes.
+            - TIME_FRAME = 4hour, N = 1 → Predict the next 4 hours.
+
+            Base your decision on the combined strength, alignment, and timing of the following three reports:
+
+            ---
+
+            ### 1. Technical Indicator Report:
+            - Evaluate momentum (e.g., MACD, ROC) and oscillators (e.g., RSI, Stochastic, Williams %R).
+            - Give **higher weight to strong directional signals** such as MACD crossovers, RSI divergence, extreme overbought/oversold levels.
+            - **Ignore or down-weight neutral or mixed signals** unless they align across multiple indicators.
+
+            ---
+
+            ### 2. Pattern Report:
+            - Only act on bullish or bearish patterns if:
+            - The pattern is **clearly recognizable and mostly complete**, and
+            - A **breakout or breakdown is already underway** or highly probable based on price and momentum (e.g., strong wick, volume spike, engulfing candle).
+            - **Do NOT act** on early-stage or speculative patterns. Do not treat consolidating setups as tradable unless there is **breakout confirmation** from other reports.
+
+            ---
+
+            ### 3. Trend Report:
+            - Analyze how price interacts with support and resistance:
+            - An **upward sloping support line** suggests buying interest.
+            - A **downward sloping resistance line** suggests selling pressure.
+            - If price is compressing between trendlines:
+            - Predict breakout **only when confluence exists with strong candles or indicator confirmation**.
+            - **Do NOT assume breakout direction** from geometry alone.
+
+            ---
+
+            ### ✅ Decision Strategy
+
+            1. Only act on **confirmed** signals — avoid emerging, speculative, or conflicting signals.
+            2. Prioritize decisions where **all three reports** (Indicator, Pattern, and Trend) **align in the same direction**.
+            3. Give more weight to:
+            - Recent strong momentum (e.g., MACD crossover, RSI breakout)
+            - Decisive price action (e.g., breakout candle, rejection wicks, support bounce)
+            4. If reports disagree:
+            - Choose the direction with **stronger and more recent confirmation**
+            - Prefer **momentum-backed signals** over weak oscillator hints.
+            5. ⚖️ If the market is in consolidation or reports are mixed:
+            - Default to the **dominant trendline slope** (e.g., SHORT in descending channel).
+            - Do not guess direction — choose the **more defensible** side.
+            6. Suggest a reasonable **risk-reward ratio** between **1.2 and 1.8**, based on current volatility and trend strength.
+
+            ---
+            ### 🧠 Output Format in json(for system parsing):
+
+            ```
+            {
+            "forecast_horizon": "Predicting next 3 candlestick (15 minutes, 1 hour, etc.)",
+            "decision": "<LONG or SHORT>",
+            "justification": "<Concise, confirmed reasoning based on reports>",
+            "risk_reward_ratio": "<float between 1.2 and 1.8>",
+            }
+
+            --------
+            **Technical Indicator Report**  
+            ## Indicator Analysis — Latest Readings (4H)
+
+| Indicator | Latest | Prior | Signal |
+|---|---|---|---|
+| **RSI (14)** | 45.34 | 43.60 | Recovering, still <50 (weak-bull / neutral) |
+| **MACD line** | −68.4 | −68.1 | Below zero, still bearish |
+| **MACD signal** | −44.5 | −38.5 | Bearish (line < signal) |
+| **MACD hist** | −23.9 | −29.6 → improving | Bearish momentum **fading** |
+| **ROC (10)** | −1.87% | −1.94 | Mildly negative, flattening |
+| **Stoch %K** | 44.34 | 43.62 | Rising |
+| **Stoch %D** | 44.03 | 43.48 | %K just crossed above %D (mild bull) |
+| **Williams %R** | −54.4 | −58.4 | Mid-range, rising from lower half |
+
+**Context:** The series shows a clear downtrend from ~29,500 (early May) to a low near **26,300**, with price now stabilizing around **26,880**. The most recent bars are a low-volatility base/consolidation.
+
+**Synthesis:**
+- **Momentum is turning but not yet confirmed.** RSI climbing back above 44–45, Stoch %K crossing over %D in mid-range, Williams %R lifting off −60s, and the MACD histogram contracting (−35 → −24) all point to **bearish momentum weakening / early rebuild**.
+- **The trend structure is still bearish.** MACD sits below both zero and its signal; RSI below 50; ROC negative. No confirmed reversal — this is a *potential* bottoming, not a breakout.
+- **No extreme/oversold edge here** — RSI ~45, Stoch ~44, %R ~−54 are all mid-range, so there's no high-conviction mean-reversion trigger in either direction.
+
+**Trade implications (fast):**
+- **Bias: cautiously constructive / range.** Fade extremes; lean long only on confirmation.
+- **Bullish trigger:** MACD histogram turning positive (bullish crossover) + RSI pushing through 50 + price reclaiming ~27,100–27,200 → add long toward 27,500 resistance.
+- **Bearish invalidation:** Loss of the 26,300–26,360 shelf (recent low) reopens downside; RSI rolling back under ~42 with %K rolling over would confirm.
+- **Range to work:** roughly **26,360 – 27,500**. Current ~26,880 is mid-range — low reward at market; prefer pullback-to-support longs or a breakout above 27,200.
+
+⚠️ All indicators are **lagging off 4H closes** — confirm intrabar with volume/price action before sizing into live execution.
+
+            **Pattern Report**  
+            ## Matched pattern(s)
+
+**1. V-shaped Reversal — primary match**  
+The clearest structure is the sharp sell-off from the mid-May high near **27,400–27,680** down to roughly **26,600–26,650**, followed by an almost equally sharp recovery back to about **27,400**.  
+- The decline is steep, the low is abrupt, and the rebound is rapid.  
+- The move is roughly symmetric around the low, which is the key feature of a V-shaped reversal.
+
+**2. Hidden Base — early-section match**  
+At the far left, price consolidates horizontally around **26,800–26,900** for several 4H candles. It then breaks out suddenly with strong green candles into the **27,200–27,400** area.  
+- This fits “horizontal consolidation followed by a sudden upward breakout.”  
+- The breakout is forceful and changes the trend from sideways to upward.
+
+**3. Bearish Flag / small consolidation — tentative, at the right edge**  
+After the later sharp drop from about **27,400** to the **26,400–26,800** area, price consolidates in a narrow, slightly upward/sideways range around **26,850–26,900**.  
+- This resembles a small bearish flag or rectangle after a sharp decline.  
+- However, it is **not confirmed** until price breaks down from that consolidation. A breakout higher would invalidate the bearish-flag interpretation.
+
+## Caveats / non-matches
+- It is **not a clean double bottom** yet: there are two low areas, but the second low sharply undercuts the first with a long lower wick, and price has not broken above the intervening high near **27,400**.
+- No clear inverse head-and-shoulders, rounded bottom/top, island reversal, or well-defined symmetrical/ascending/descending triangle is present.
+- The May 14–16 decline could superficially resemble a falling wedge, but the bottom is too sharp and V-shaped to call it a textbook wedge.
+
+Overall, the chart best matches a **V-shaped reversal**, with an earlier **hidden-base breakout** and a possible unfinished **bearish flag/rectangle** at the right side.
+
+            **Trend Report**  
+            Based on the provided 4-hour candlestick chart, here is an analysis of the price action and a short-term trend prediction.
+
+### Price Interaction with Trendlines
+*   **Support (Blue Line):** The upward-sloping blue support line has held firmly multiple times (notably around May 11-12 and May 15-16). The most recent candles are currently resting directly on this line, indicating that buyers are defending this rising floor.
+*   **Resistance (Red Line):** The red resistance line is also sloping upward, though at a much shallower angle. The price has tested this line several times (around May 14 and May 18) but has faced rejections, preventing a clear breakout so far.
+*   **Compression:** The converging nature of the two lines—with the support rising faster than the resistance—indicates a clear compression phase. The price is coiling into an ascending wedge/triangle pattern, meaning volatility is decreasing and a breakout is imminent.
+
+### Prediction: **Upward**
+
+### Reasoning and Signals
+1.  **Pattern Formation:** The chart is forming an **ascending triangle/wedge**. This is typically a bullish continuation pattern. The fact that the lows are consistently higher (tracking the blue line) while the highs remain relatively static along the red line shows strong underlying buying pressure absorbing selling pressure.
+2.  **Support Deflection:** The recent series of small K-lines (dojis/small green candles) right at the blue support line demonstrates that the bears are losing momentum. The price is refusing to break down, suggesting the support level is strong.
+3.  **Slope Dynamics:** The steeper slope of the support line compared to the resistance line acts as a "squeeze." As the two lines converge toward the apex, the price is forced to choose a direction. Given the established higher lows, the path of least resistance is upwards.
+4.  **Signal Confirmation:** A bullish signal would be a strong green candle breaking and closing above the red resistance line (around 27500). Conversely, a break below the blue support line would invalidate this bullish setup, but current behavior suggests the support will hold for now.
+
+        

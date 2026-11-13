@@ -1,0 +1,8 @@
+{
+  "sample": 85,
+  "repeat": 1,
+  "started_at": "2026-11-07T22:07:53+08:00",
+  "history_bars": 97,
+  "future_bars": 3,
+  "prompt_policy": "official agent source unchanged; no additional prompt instructions"
+}
